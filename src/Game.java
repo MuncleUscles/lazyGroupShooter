@@ -5,12 +5,16 @@ import gameengine.Player;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
-public class Main extends BasicGame
+import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.SpriteSheet;
+public class Game extends BasicGame
 {
+	
+	private TiledMap map;
 	
 	long totalTime;
 
-	public Main()
+	public Game()
 	{
 		super("The Game was lost by me");
 		
@@ -23,7 +27,10 @@ public class Main extends BasicGame
 		Player player = new Player(new Vector2f(100, 100), 25);
 		player.setAimColor(new Color(255, 0, 0));
 		player.setFillColor(new Color(0, 255, 0));
-
+		
+		SpriteSheet sheet = new SpriteSheet("res/tmw_desert_spacing.png",32,32);
+		map = new TiledMap("res/desert.tmx");
+		
 		GameEngine.setPlayer(player);
 		
 		BasicEnemy enem1 = new BasicEnemy(new Vector2f(200, 200), 25);
@@ -37,43 +44,18 @@ public class Main extends BasicGame
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
 		totalTime += delta;
-		
 		GameEngine.update(gc.getInput(), delta);
 	}
  
 	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException
+	public void render(GameContainer gc, Graphics g)
 	{
+		map.render(0, 0);
 		g.resetTransform();
-		
-		//--------Not Actually part of the game
-		/*
-		g.setColor(new Color((float)(Math.sin(totalTime/30.0)+1)/2, (float)(Math.sin(totalTime/35.0)+1)/2, (float)(Math.sin(totalTime/25.0)+1)/2));
-		
-		g.fill(new Rectangle(0, 0, 800, 600));
-		
-		g.translate(400, 300);
-		
-		g.scale((float) (Math.sin(totalTime/200.0)*1.5+3), (float)(Math.sin(totalTime/200.0)*1.5+3));
-		
-		g.rotate(0, 0, (float) (Math.sin(totalTime/100.0)*30));
-		
-		g.setColor(new Color((float)(-Math.sin(totalTime/30.0)+1)/2, (float)(-Math.sin(totalTime/35.0)+1)/2, (float)(-Math.sin(totalTime/25.0)+1)/2));		
-		
-		g.drawString("Get to work!", -55, -10);
-		*/
-		
-		//------
-		
-		GameEngine.draw(g);
-		
-	}
- 
+	}		
 	public static void main(String[] args) throws SlickException
 	{
-		AppGameContainer app = new AppGameContainer(new Main());
- 
-		app.setDisplayMode(800, 600, false);
-		app.start();
+		AppGameContainer container = new AppGameContainer(new Game(), 1280, 1280, false);
+		container.start();
 	}
 }
