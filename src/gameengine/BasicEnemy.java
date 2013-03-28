@@ -12,6 +12,7 @@ private Color fillColor, aimColor;
 	{
 		setPosition(position);
 		setRadius(radius);
+		setVelocity(new Vector2f());
 	}
 	
 	

@@ -1,4 +1,7 @@
 package gameengine;
+
+import main.Game;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -12,6 +15,13 @@ public abstract class GameObject {
 	private boolean isCollidable;
 	
 	public abstract void draw(Graphics g);
+	
+	
+	public void move(int delta)
+	{
+		position.add(velocity.scale((float) (delta/Game.FRAME_TIME)));
+		velocity = new Vector2f();
+	}
 
 	public Vector2f getPosition() {
 		return position;

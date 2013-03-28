@@ -12,6 +12,7 @@ public class Player extends Entity{
 	{
 		setPosition(position);
 		setRadius(radius);
+		setVelocity(new Vector2f());
 	}
 	
 	

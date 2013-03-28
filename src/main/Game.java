@@ -1,3 +1,4 @@
+package main;
 import gameengine.BasicEnemy;
 import gameengine.GameEngine;
 import gameengine.Player;
@@ -10,9 +11,15 @@ import org.newdawn.slick.SpriteSheet;
 public class Game extends BasicGame
 {
 	
-	private TiledMap map;
+	
 	
 	long totalTime;
+	
+	public static int WINDOW_WIDTH = 800;
+	public static int WINDOW_HEIGHT = 600;
+	
+	public static int FRAME_RATE = 60;
+	public static double FRAME_TIME = 1000/FRAME_RATE;
 
 	public Game()
 	{
@@ -24,12 +31,15 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException
 	{
+		GameEngine.setMap( new TiledMap("res/desert.tmx"));
+		
 		Player player = new Player(new Vector2f(100, 100), 25);
 		player.setAimColor(new Color(255, 0, 0));
 		player.setFillColor(new Color(0, 255, 0));
 		
-		SpriteSheet sheet = new SpriteSheet("res/tmw_desert_spacing.png",32,32);
-		map = new TiledMap("res/desert.tmx");
+		player.setMovementSpeed(5f);
+		
+		//SpriteSheet sheet = new SpriteSheet("res/tmw_desert_spacing.png",32,32);	
 		
 		GameEngine.setPlayer(player);
 		
@@ -50,12 +60,14 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g)
 	{
-		map.render(0, 0);
 		g.resetTransform();
+		
+		GameEngine.draw(g);
+		
 	}		
 	public static void main(String[] args) throws SlickException
 	{
-		AppGameContainer container = new AppGameContainer(new Game(), 1280, 1280, false);
+		AppGameContainer container = new AppGameContainer(new Game(), WINDOW_WIDTH, WINDOW_HEIGHT, false);
 		container.start();
 	}
 }
