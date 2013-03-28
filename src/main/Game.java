@@ -31,6 +31,8 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException
 	{
+		gc.getGraphics().setAntiAlias(true);
+		
 		GameEngine.setMap( new TiledMap("res/desert.tmx"));
 		
 		Player player = new Player(new Vector2f(100, 100), 25);
@@ -47,7 +49,7 @@ public class Game extends BasicGame
 		enem1.setAimColor(new Color(255, 0, 0));
 		enem1.setFillColor(new Color(0, 0, 255));
 		
-		GameEngine.addObject(enem1);
+		GameEngine.addEntity(enem1);
 	}
  
 	@Override

@@ -8,6 +8,8 @@ public abstract class Entity extends CircleObject{
 	
 	private boolean isShot;
 	
+	private boolean isShooting;
+	
 	private float movementSpeed;
 
 	public float getAimDirection() {
@@ -43,6 +45,14 @@ public abstract class Entity extends CircleObject{
 		aimVector.scale(getRadius());
 		
 		return aimVector;
+	}
+
+	public boolean isShooting() {
+		return isShooting;
+	}
+
+	public void setShooting(boolean isShooting) {
+		this.isShooting = isShooting;
 	}
 	
 }

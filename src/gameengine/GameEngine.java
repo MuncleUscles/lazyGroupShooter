@@ -1,5 +1,6 @@
 package gameengine;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import main.Game;
 
@@ -13,6 +14,10 @@ public class GameEngine {
 	
 	private static ArrayList<GameObject> objects;
 	
+	private static ArrayList<TempVisualObject> tempVisuals;
+	
+	private static ArrayList<Entity> entities;
+	
 	private static Player player;
 	
 	private static TiledMap map;
@@ -20,6 +25,20 @@ public class GameEngine {
 	static 
 	{
 		objects = new ArrayList<GameObject>();
+		tempVisuals = new ArrayList<TempVisualObject>();
+		entities = new  ArrayList<Entity>();
+	}
+	
+	public static void addEntity(Entity entity)
+	{
+		objects.add(entity);
+		entities.add(entity);
+	}
+	
+	public static void removeEntity(Entity entity)
+	{
+		objects.remove(entity);
+		entities.remove(entity);
 	}
 	
 	public static void addObject(GameObject object)
@@ -35,12 +54,18 @@ public class GameEngine {
 
 	public static void update(Input input, int delta)
 	{
+		//temp visuals
+		processTempVisuals(delta);
+		
+		
 		//player.setAimDirection((float) (player.getAimDirection()+0.05));
 		processInput(input);
 		
 		//AI set velocity, aim and shoot
 		
 		//Resolve shooting
+		resolveShooting();
+		
 		
 		//Resolve movement
 		resolveMovement(delta);
@@ -51,6 +76,7 @@ public class GameEngine {
 	
 	public static void processInput(Input input)
 	{
+		
 		//Movement
 		if(input.isKeyDown(Input.KEY_W)  || input.isKeyDown(Input.KEY_UP))
 		{
@@ -81,6 +107,13 @@ public class GameEngine {
 		player.setAimDirection((float) aimAngle);
 		
 		
+		//Shooting
+		
+		if(input.isMousePressed(input.MOUSE_LEFT_BUTTON) )
+		{
+			player.setShooting(true);
+		}
+		
 	}
 	
 	public static void draw(Graphics g)
@@ -93,6 +126,57 @@ public class GameEngine {
 		{
 			
 			objects.get(i).draw(g);
+		}
+		
+		for(int i=0; i<tempVisuals.size(); i++)
+		{
+			
+			tempVisuals.get(i).draw(g);
+		}
+	}
+	
+	public static void processTempVisuals(int delta)
+	{
+		Iterator<TempVisualObject> it = tempVisuals.iterator();
+		while (it.hasNext()) {
+			
+			TempVisualObject o = it.next();
+			
+			o.advanceTime(delta);
+			
+		    if (o.getExistanceTime() <= 0 ) {
+		        it.remove();
+		        
+		    }
+		}
+	}
+	
+	public static void resolveShooting()
+	{
+		for(int i=0; i<entities.size(); i++)
+		{
+			Entity entity = entities.get(i);
+			
+			
+			
+			if(entity.isShooting())
+			{
+				
+				
+				//Actually calculate something
+				
+				Vector2f shotEnd = new Vector2f(1,0);
+				shotEnd.setTheta(entity.getAimDirection());
+				shotEnd.scale(Game.WINDOW_WIDTH);
+				shotEnd.add(entity.getPosition());
+				
+				//Visual
+				
+				Shot shot = new Shot(entity.getPosition(), shotEnd);
+				tempVisuals.add(shot);
+				
+				entity.setShooting(false);
+			}
 		}
 	}
 	
@@ -117,8 +201,8 @@ public class GameEngine {
 		GameEngine.player = player;
 		
 		addObject(player);
+		addEntity(player);
 		
-		System.out.println(objects.size());
 	}
 
 	
