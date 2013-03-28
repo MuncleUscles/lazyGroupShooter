@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.SpriteSheet;
+import java.util.Random;
 public class Game extends BasicGame
 {
 	
@@ -15,8 +16,8 @@ public class Game extends BasicGame
 	
 	long totalTime;
 	
-	public static int WINDOW_WIDTH = 800;
-	public static int WINDOW_HEIGHT = 600;
+	public static int WINDOW_WIDTH = 1200;
+	public static int WINDOW_HEIGHT = 1200;
 	
 	public static int FRAME_RATE = 60;
 	public static double FRAME_TIME = 1000/FRAME_RATE;
