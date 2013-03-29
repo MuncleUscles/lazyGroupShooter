@@ -21,6 +21,7 @@ public class Game extends BasicGame
 	
 	public static int FRAME_RATE = 60;
 	public static double FRAME_TIME = 1000/FRAME_RATE;
+	
 
 	public Game()
 	{
@@ -50,40 +51,46 @@ public class Game extends BasicGame
 
 		//Random Enemy Spawn
 		Random r1 = new Random();
-		int x = r1.nextInt(1230) + 25;
+		int x1 = r1.nextInt(1230) + 25;
 		
 		Random r2 = new Random();
-		int y = r2.nextInt(1230) + 25;
+		int y1 = r2.nextInt(1230) + 25;
 		
-		BasicEnemy enem1 = new BasicEnemy(new Vector2f(x, y), 25);
+		BasicEnemy enem1 = new BasicEnemy(new Vector2f(x1, y1), 25);
 		enem1.setAimColor(new Color(255, 0, 0));
 		enem1.setFillColor(new Color(0, 0, 255));
 		
-		GameEngine.addEntity(enem1);
+		enem1.setMovementSpeed(0.02f);
+		
+		GameEngine.setEnemy1(enem1);
 		
 		r1 = new Random();
-		x = r1.nextInt(1230) + 25;
+		int x2 = r1.nextInt(1230) + 25;
 		
 		r2 = new Random();
-		y = r2.nextInt(1230) + 25;		
+		int y2 = r2.nextInt(1230) + 25;		
 		
-		BasicEnemy enem2 = new BasicEnemy(new Vector2f(x, y), 25);
+		BasicEnemy enem2 = new BasicEnemy(new Vector2f(x2, y2), 25);
 		enem2.setAimColor(new Color(255, 0, 0));
 		enem2.setFillColor(new Color(0, 0, 255));
 		
-		GameEngine.addEntity(enem2);
+		enem2.setMovementSpeed(0.02f);
+		
+		GameEngine.setEnemy2(enem2);
 		
 		r1 = new Random();
-		x = r1.nextInt(1230) + 25;
+		int x3 = r1.nextInt(1230) + 25;
 		
 		r2 = new Random();
-		y = r2.nextInt(1230) + 25;		
+		int y3 = r2.nextInt(1230) + 25;		
 		
-		BasicEnemy enem3 = new BasicEnemy(new Vector2f(x, y), 25);
+		BasicEnemy enem3 = new BasicEnemy(new Vector2f(x3, y3), 25);
 		enem3.setAimColor(new Color(255, 0, 0));
 		enem3.setFillColor(new Color(0, 0, 255));
 		
-		GameEngine.addEntity(enem3);
+		enem3.setMovementSpeed(0.02f);
+		
+		GameEngine.setEnemy3(enem3);
 	}
  
 	@Override
