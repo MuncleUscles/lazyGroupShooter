@@ -20,7 +20,21 @@ public class GameEngine {
 	
 	private static Player player;
 	
+	private static BasicEnemy enem1;
+	
+	private static BasicEnemy enem2;
+	
+	private static BasicEnemy enem3;
+	
 	private static TiledMap map;
+	
+	private static Image zombie1;
+	
+	private static Image zombie2;
+	
+	private static Image zombie3;
+	
+	private static Image cowboy;;
 	
 	static 
 	{
@@ -57,6 +71,8 @@ public class GameEngine {
 		//temp visuals
 		processTempVisuals(delta);
 		
+		
+		//player.setAimDirection((float) (player.getAimDirection()+0.05));
 		//
 		processInput(input);
 		
@@ -75,7 +91,7 @@ public class GameEngine {
 	
 	public static void processInput(Input input)
 	{		
-		//Movement
+		//Player Movement
 		if(input.isKeyDown(Input.KEY_W)  || input.isKeyDown(Input.KEY_UP))
 		{
 			player.setVelocity(new Vector2f(0, -1).scale(player.getMovementSpeed()));
@@ -93,6 +109,7 @@ public class GameEngine {
 			player.setVelocity(new Vector2f(1, 0).scale(player.getMovementSpeed()));
 		}
 		
+		
 		//Mouse aim
 		int mx = input.getMouseX();
 		int my = input.getMouseY();
@@ -103,6 +120,33 @@ public class GameEngine {
 		double aimAngle = mVector.getTheta();
 		
 		player.setAimDirection((float) aimAngle);
+//		cowboy.setRotation((float) aimAngle);
+		
+		//Enemy Aiming
+		Vector2f e1Vector = new Vector2f(player.getPosition().getX() - enem1.getPosition().getX(), player.getPosition().getY() - enem1.getPosition().getY());
+		double e1AimAngle = e1Vector.getTheta();
+		enem1.setAimDirection((float) e1AimAngle);
+//		zombie1.setRotation((float) e1AimAngle);
+		
+		Vector2f e2Vector = new Vector2f(player.getPosition().getX() - enem2.getPosition().getX(), player.getPosition().getY() - enem2.getPosition().getY());
+		double e2AimAngle = e2Vector.getTheta();
+		enem2.setAimDirection((float) e2AimAngle);
+//		zombie2.setRotation((float) e2AimAngle);
+		
+		Vector2f e3Vector = new Vector2f(player.getPosition().getX() - enem3.getPosition().getX(), player.getPosition().getY() - enem3.getPosition().getY());
+		double e3AimAngle = e3Vector.getTheta();
+		enem3.setAimDirection((float) e3AimAngle);
+//		zombie3.setRotation((float) e3AimAngle);
+		
+		//Enemy Movement
+		enem1.setVelocity(e1Vector.scale(enem1.getMovementSpeed()));
+//		zombie1.setVelocity(e1Vector.scale(enem1.getMovementSpeed()));
+		
+		enem2.setVelocity(e2Vector.scale(enem2.getMovementSpeed()));
+//		zombie2.setVelocity(e2Vector.scale(enem2.getMovementSpeed()));
+		
+		enem3.setVelocity(e3Vector.scale(enem3.getMovementSpeed()));
+//		zombie3.setVelocity(e3Vector.scale(enem3.getMovementSpeed()));
 		
 		
 		//Shooting
@@ -201,6 +245,28 @@ public class GameEngine {
 		addObject(player);
 		addEntity(player);
 	}
+	public static void setEnemy1(BasicEnemy enemy) {
+		GameEngine.enem1 = enemy;
+		
+		addObject(enemy);
+		addEntity(enemy);
+		
+	}
+	public static void setEnemy2(BasicEnemy enemy) {
+		GameEngine.enem2 = enemy;
+		
+		addObject(enemy);
+		addEntity(enemy);
+		
+	}
+	public static void setEnemy3(BasicEnemy enemy) {
+		GameEngine.enem3 = enemy;
+		
+		addObject(enemy);
+		addEntity(enemy);
+		
+	}
+	
 
 	
 
