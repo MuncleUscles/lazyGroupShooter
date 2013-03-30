@@ -55,4 +55,11 @@ public class Player extends Entity{
 		this.aimColor = aimColor;
 	}
 
+
+
+	@Override
+	public String type() {
+		return "Player";
+	}
+
 }

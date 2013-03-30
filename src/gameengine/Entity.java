@@ -4,7 +4,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 public abstract class Entity extends CircleObject{
 	
-	private float aimDirection;
+	private double aimDirection;
 	
 	private boolean isShot;
 	
@@ -12,11 +12,11 @@ public abstract class Entity extends CircleObject{
 	
 	private float movementSpeed;
 
-	public float getAimDirection() {
+	public double getAimDirection() {
 		return aimDirection;
 	}
 
-	public void setAimDirection(float aimDirection) {
+	public void setAimDirection(double aimDirection) {
 		this.aimDirection = aimDirection;
 	}
 

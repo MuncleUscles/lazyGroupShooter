@@ -48,6 +48,6 @@ public abstract class GameObject {
 		this.isCollidable = isCollidable;
 	}
 	
-	
+	public abstract String type();
 
 }

@@ -30,4 +30,9 @@ public class Shot extends TempVisualObject{
 		
 	}
 
+	@Override
+	public String type() {
+		return "Shot";
+	}
+
 }

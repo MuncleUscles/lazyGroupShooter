@@ -5,6 +5,7 @@ import java.util.Iterator;
 import main.Game;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
@@ -20,21 +21,9 @@ public class GameEngine {
 	
 	private static Player player;
 	
-	private static BasicEnemy enem1;
-	
-	private static BasicEnemy enem2;
-	
-	private static BasicEnemy enem3;
-	
 	private static TiledMap map;
 	
-	private static Image zombie1;
-	
-	private static Image zombie2;
-	
-	private static Image zombie3;
-	
-	private static Image cowboy;;
+
 	
 	static 
 	{
@@ -72,11 +61,11 @@ public class GameEngine {
 		processTempVisuals(delta);
 		
 		
-		//player.setAimDirection((float) (player.getAimDirection()+0.05));
-		//
+		//process input
 		processInput(input);
 		
 		//AI set velocity, aim and shoot
+		processAI();
 		
 		//Resolve shooting
 		resolveShooting();
@@ -92,22 +81,27 @@ public class GameEngine {
 	public static void processInput(Input input)
 	{		
 		//Player Movement
+		player.setVelocity(new Vector2f(0, 0));
+		
+		
 		if(input.isKeyDown(Input.KEY_W)  || input.isKeyDown(Input.KEY_UP))
 		{
-			player.setVelocity(new Vector2f(0, -1).scale(player.getMovementSpeed()));
+			player.getVelocity().add(new Vector2f(0, -1));
 		}
-		else if(input.isKeyDown(Input.KEY_S)  || input.isKeyDown(Input.KEY_DOWN))
+		if(input.isKeyDown(Input.KEY_S)  || input.isKeyDown(Input.KEY_DOWN))
 		{
-			player.setVelocity(new Vector2f(0, 1).scale(player.getMovementSpeed()));
+			player.getVelocity().add(new Vector2f(0, 1));
 		}
-		else if(input.isKeyDown(Input.KEY_A)  || input.isKeyDown(Input.KEY_LEFT))
+		if(input.isKeyDown(Input.KEY_A)  || input.isKeyDown(Input.KEY_LEFT))
 		{
-			player.setVelocity(new Vector2f(-1, 0).scale(player.getMovementSpeed()));
+			player.getVelocity().add(new Vector2f(-1, 0));
 		}
 		if(input.isKeyDown(Input.KEY_D)  || input.isKeyDown(Input.KEY_RIGHT))
 		{
-			player.setVelocity(new Vector2f(1, 0).scale(player.getMovementSpeed()));
+			player.getVelocity().add(new Vector2f(1, 0));
 		}
+		
+		player.getVelocity().normalise().scale(player.getMovementSpeed());
 		
 		
 		//Mouse aim
@@ -120,34 +114,7 @@ public class GameEngine {
 		double aimAngle = mVector.getTheta();
 		
 		player.setAimDirection((float) aimAngle);
-//		cowboy.setRotation((float) aimAngle);
-		
-		//Enemy Aiming
-		Vector2f e1Vector = new Vector2f(player.getPosition().getX() - enem1.getPosition().getX(), player.getPosition().getY() - enem1.getPosition().getY());
-		double e1AimAngle = e1Vector.getTheta();
-		enem1.setAimDirection((float) e1AimAngle);
-//		zombie1.setRotation((float) e1AimAngle);
-		
-		Vector2f e2Vector = new Vector2f(player.getPosition().getX() - enem2.getPosition().getX(), player.getPosition().getY() - enem2.getPosition().getY());
-		double e2AimAngle = e2Vector.getTheta();
-		enem2.setAimDirection((float) e2AimAngle);
-//		zombie2.setRotation((float) e2AimAngle);
-		
-		Vector2f e3Vector = new Vector2f(player.getPosition().getX() - enem3.getPosition().getX(), player.getPosition().getY() - enem3.getPosition().getY());
-		double e3AimAngle = e3Vector.getTheta();
-		enem3.setAimDirection((float) e3AimAngle);
-//		zombie3.setRotation((float) e3AimAngle);
-		
-		//Enemy Movement
-		enem1.setVelocity(e1Vector.scale(enem1.getMovementSpeed()));
-//		zombie1.setVelocity(e1Vector.scale(enem1.getMovementSpeed()));
-		
-		enem2.setVelocity(e2Vector.scale(enem2.getMovementSpeed()));
-//		zombie2.setVelocity(e2Vector.scale(enem2.getMovementSpeed()));
-		
-		enem3.setVelocity(e3Vector.scale(enem3.getMovementSpeed()));
-//		zombie3.setVelocity(e3Vector.scale(enem3.getMovementSpeed()));
-		
+
 		
 		//Shooting
 		
@@ -190,6 +157,22 @@ public class GameEngine {
 		        it.remove();
 		        
 		    }
+		}
+	}
+	
+	public static void processAI()
+	{
+		for(int i=0; i<entities.size(); i++)
+		{
+			//Basic enemies
+			if(entities.get(i).type().equals("BasicEnemy"))
+			{
+				BasicEnemy enemy = (BasicEnemy) entities.get(i);
+				
+				Vector2f aim = player.getPosition().copy().sub(enemy.getPosition());
+				enemy.setAimDirection(aim.getTheta());
+				enemy.setVelocity(aim.normalise().scale(enemy.getMovementSpeed()));				
+			}
 		}
 	}
 	
@@ -245,28 +228,6 @@ public class GameEngine {
 		addObject(player);
 		addEntity(player);
 	}
-	public static void setEnemy1(BasicEnemy enemy) {
-		GameEngine.enem1 = enemy;
-		
-		addObject(enemy);
-		addEntity(enemy);
-		
-	}
-	public static void setEnemy2(BasicEnemy enemy) {
-		GameEngine.enem2 = enemy;
-		
-		addObject(enemy);
-		addEntity(enemy);
-		
-	}
-	public static void setEnemy3(BasicEnemy enemy) {
-		GameEngine.enem3 = enemy;
-		
-		addObject(enemy);
-		addEntity(enemy);
-		
-	}
-	
 
 	
 

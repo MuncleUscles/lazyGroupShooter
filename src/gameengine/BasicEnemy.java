@@ -55,4 +55,11 @@ private Color fillColor, aimColor;
 		this.aimColor = aimColor;
 	}
 
+
+
+	@Override
+	public String type() {
+		return "BasicEnemy";
+	}
+
 }
