@@ -57,8 +57,7 @@ public class GameEngine {
 		//temp visuals
 		processTempVisuals(delta);
 		
-		
-		//player.setAimDirection((float) (player.getAimDirection()+0.05));
+		//
 		processInput(input);
 		
 		//AI set velocity, aim and shoot
@@ -75,8 +74,7 @@ public class GameEngine {
 	}
 	
 	public static void processInput(Input input)
-	{
-		
+	{		
 		//Movement
 		if(input.isKeyDown(Input.KEY_W)  || input.isKeyDown(Input.KEY_UP))
 		{
@@ -202,7 +200,6 @@ public class GameEngine {
 		
 		addObject(player);
 		addEntity(player);
-		
 	}
 
 	
