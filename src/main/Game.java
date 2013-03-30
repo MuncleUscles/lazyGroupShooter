@@ -41,6 +41,7 @@ public class Game extends BasicGame
 		Player player = new Player(new Vector2f(640, 640), 25);
 		player.setAimColor(new Color(255, 0, 0));
 		player.setFillColor(new Color(0, 255, 0));
+		player.setImage(new Image("res/images/cowboy.bmp"));
 		
 		player.setMovementSpeed(5f);
 		GameEngine.setPlayer(player);
@@ -52,7 +53,9 @@ public class Game extends BasicGame
 			BasicEnemy enemy = new BasicEnemy(new Vector2f((float) Math.random()*WINDOW_WIDTH,(float) Math.random()*WINDOW_HEIGHT), 25);
 			enemy.setAimColor(new Color(255, 0, 0));
 			enemy.setFillColor(new Color(0, 0, 255));
-
+			enemy.setImage(new Image("res/images/zombie.bmp"));
+			
+			
 			enemy.setMovementSpeed(4f);
 			
 			GameEngine.addEntity(enemy);
