@@ -15,6 +15,7 @@ public class BasicEnemy extends Entity {
 	{
 		super(position, radius);
 		setVelocity(new Vector2f());
+		setHealth(10);
 	}
 	
 	
@@ -22,7 +23,7 @@ public class BasicEnemy extends Entity {
 	@Override
 	public void draw(Graphics g) {
 		
-g.pushTransform();
+		g.pushTransform();
 		
 		g.setColor(fillColor);		
 		g.fillOval(getPosition().getX() - getRadius(), getPosition().getY() - getRadius(), getRadius()*2 , getRadius()*2);
@@ -87,8 +88,18 @@ g.pushTransform();
 	
 	@Override
 	public boolean hit(double damage) {
-		setFillColor(Color.yellow);
-		return false;
+		//setFillColor(Color.yellow);
+		
+		setHealth(getHealth() - damage);
+		
+		return (getHealth() <=0);
+	}
+
+
+
+	@Override
+	public double getDamage() {
+		return 10;
 	}
 
 }

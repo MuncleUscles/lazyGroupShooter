@@ -40,6 +40,12 @@ public class GameEngine {
 		entities.add(entity);
 	}
 	
+	public static void killEntity(Entity entity)
+	{
+		objects.remove(entity);
+		entities.remove(entity);
+	}
+	
 	public static void removeEntity(Entity entity)
 	{
 		objects.remove(entity);
@@ -129,7 +135,7 @@ public class GameEngine {
 	
 	public static void draw(Graphics g)
 	{
-		g.translate(-player.getPosition().x + Game.WINDOW_WIDTH/2, -player.getPosition().y + Game.WINDOW_HEIGHT/2);
+		g.translate(Math.round(-player.getPosition().x + Game.WINDOW_WIDTH/2), Math.round(-player.getPosition().y + Game.WINDOW_HEIGHT/2));
 		
 		map.render(0, 0);
 		
@@ -201,7 +207,10 @@ public class GameEngine {
 				//Hit something
 				if(target != null)
 				{
-					target.hit(0);
+					if(target.hit(entity.getDamage()))
+					{
+						killEntity((Entity) target);
+					}
 				}
 				
 				//Visual
@@ -219,7 +228,8 @@ public class GameEngine {
 	
 	public static void resolveMovement(int delta)
 	{
-		Collider.doCollisions(objects, delta);
+		//Collider.doCollisions(objects, delta);
+		Collider.resolveAll(objects);
 	}
 	
 	public static void move(int delta)

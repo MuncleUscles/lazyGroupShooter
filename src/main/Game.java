@@ -49,7 +49,7 @@ public class Game extends BasicGame
 
 		//Random Enemy Spawn
 		
-		for(int i=0; i<3; i++)
+		for(int i=0; i<10; i++)
 		{
 			BasicEnemy enemy = new BasicEnemy(new Vector2f((float) Math.random()*WINDOW_WIDTH,(float) Math.random()*WINDOW_HEIGHT), 25);
 			enemy.setAimColor(new Color(255, 0, 0));
@@ -85,4 +85,6 @@ public class Game extends BasicGame
 		AppGameContainer container = new AppGameContainer(new Game(), WINDOW_WIDTH, WINDOW_HEIGHT, false);
 		container.start();
 	}
+	
+	
 }

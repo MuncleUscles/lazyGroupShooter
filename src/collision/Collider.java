@@ -14,6 +14,8 @@ public class Collider {
 	
 	public static void doCollisions(ArrayList<GameObject> objects, int delta)
 	{
+		//resolveAll(objects);
+		//System.out.println("resolved");
 		
 		double stepPercentage = delta/Game.FRAME_TIME;
 		ArrayList<Collision> collisions = new ArrayList<Collision>();
@@ -35,7 +37,7 @@ public class Collider {
             	{
             		GameObject o = objects.get(i);
             		
-	                for(int j = 0; j<objects.size();j++)
+	                for(int j = i+1; j<objects.size();j++)
 	                {
 	                	if(objects.get(j).isCollidable() && o!=objects.get(j))
 	                	{
@@ -52,9 +54,9 @@ public class Collider {
 		                        
 		                        double collisionTime = Collider.testCollide(o, oj, delta)+time;
 		                        
-		                        System.out.println(time + " "+collisionTime+" "+o.type()+" "+oj.type());
+		                        //System.out.println(time + " "+collisionTime+" "+o.type()+" "+oj.type());
 		                        
-		                        if(collisionTime == time)
+		                        if(collisionTime - time < 1E-5 && collisionTime - time >=0)
 		                        {
 		                        	Collider.collide(o, oj);
 		                        }
@@ -146,7 +148,7 @@ public class Collider {
 	
 	public static double testCollide(GameObject a, GameObject b, int delta)
 	{
-		if(a.getVelocity().copy().sub(b.getVelocity()).length() < 0.0001)
+		if(!movingTowards(a,b))
 		{
 			//System.out.println("asd");
 			return -1;
@@ -176,12 +178,12 @@ public class Collider {
 		Vector2f bVelocity = b.getVelocity().copy();
 		
 		double distanceSq = aPosition.distanceSquared(bPosition);
-		double radiusSumSq = a.getRadius()*a.getRadius() + b.getRadius()+b.getRadius();
+		double radiusSumSq = (a.getRadius() + b.getRadius())*(a.getRadius() + b.getRadius());
 		
 		
 		
 		//If overlapping
-		if(distanceSq < 0)//radiusSumSq)
+		if(distanceSq < radiusSumSq)
 		{
 			//System.out.println("Overlap");
 		}
@@ -298,5 +300,93 @@ public class Collider {
 		
 		return target;
 	}
+	
+	private static boolean movingTowards(GameObject a, GameObject b)
+	{
+		double dot = b.getPosition().copy().sub(a.getPosition()).dot(a.getVelocity().copy().sub(b.getVelocity()));
+		
+		return dot > 0;
+	}
+	
+	
+	public static void resolveAll(ArrayList<GameObject> objects)
+	{
+		boolean hadIssue = true;
+		
+		for(int k=0; k<3; k++)
+		{
+			hadIssue = false;
+			
+			for(int i=0;i<objects.size();i++)
+            {
+            	if(objects.get(i).isCollidable())
+            	{
+            		GameObject o = objects.get(i);
+            		
+	                for(int j = i+1; j<objects.size();j++)
+	                {
+	                	if(objects.get(j).isCollidable() && o!=objects.get(j))
+	                	{
+		                    GameObject oj = objects.get(j);
+		                    
+		                    if(resolve(o, oj))
+		                    {
+		                    	
+		                    	//hadIssue = true;
+		                    }
+	                	}
+	                }    
+            	}
+            }
+		}
+	}
+	
+	
+	public static boolean resolve(GameObject a, GameObject b)
+	{
+		
+		
+		if(a.collisionType().equals("Circle"))
+        {
+            if(b.collisionType().equals("Circle"))
+            {
+                return circleCircleResolve((CircleObject)a, (CircleObject)b);
+            }
+        }
+		
+		
+		return false;
+        
+	}
+	
+	private static boolean circleCircleResolve(CircleObject a, CircleObject b)
+	{
+		
+		double t=-1;
+		
+		Vector2f aPosition = a.getPosition().copy();
+		Vector2f bPosition = b.getPosition().copy();
+		Vector2f aVelocity = a.getVelocity().copy();
+		Vector2f bVelocity = b.getVelocity().copy();
+		
+		double distanceSq = aPosition.distanceSquared(bPosition);
+		double radiusSumSq = (a.getRadius() + b.getRadius())*(a.getRadius() + b.getRadius());
+		
+		
+		
+		//If overlapping
+		if(distanceSq < radiusSumSq)
+		{
+			//System.out.println("resolving "+a.getPosition()+" "+b.getPosition());
+			Vector2f dist = bPosition.sub(aPosition).normalise();
+			
+			Vector2f newPos = dist.scale((float) (a.getRadius() + b.getRadius()+1));
+			
+			b.setPosition(aPosition.add(newPos));
 
+			return true;
+		}
+		
+		return false;
+	}
 }

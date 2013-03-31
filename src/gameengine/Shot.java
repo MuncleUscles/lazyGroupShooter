@@ -8,7 +8,7 @@ public class Shot extends TempVisualObject{
 	
 	private Vector2f end;
 	
-	private static int SHOT_TIME = 100;
+	private static int SHOT_TIME = 50;
 	
 	public Shot(Vector2f start, Vector2f end)
 	{

@@ -3,9 +3,14 @@
  <tileset firstgid="1" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1">
   <image source="tmw_desert_spacing.png" width="265" height="199"/>
  </tileset>
- <layer name="Tile Layer 1" width="40" height="40">
+ <layer name="Collision" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3DAQkAAAwEoUvy/WOux1Bw1VRVVVVVVR89iwXvrgAZAAA=
+   H4sIAAAAAAAAC+1RWwoEMQzKUbz/KfdrYZCYV9tlFioEMtaoMDAzvHzeCtjt98zpjNm8n/JRXt0M9u1i2kPlMQ/BV6FuMi+VxzwEXwXs3P/1fLvgPvyt8lireHXb6VflmYOd76fgeTGXZYL2SFvB08PzYi7LBO2RtuvheTEXZfJbpI0Q+atMNVEXj6ugkrcDJzx3Anb7rQB2+60AdvutAHb7rQB2+60A9r/94LxjcXb324mJH4K7iV+WNblRd6C94+/pO/eVXNDu5fFk+i48n6pfNz97VzfqbndeV/+9mdx5eZkPrP/fPX1VC2cm3pEm8pjmdfWRJvLodFlBlIPgHT+crN+b5wM6ZXg5ABkAAA==
+  </data>
+ </layer>
+ <layer name="Visible" width="40" height="40">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2Yf08CMQyGF+NPTJQYlYCKEU7UA/T7fzu7ZE2W2m3ttmPB3B9PDkZve7u1C+3SGLM8Qj6BC+DDPV+Bc/eZcnlgbTfArYJpg/3bADO3j/b5Azy6z8iZUN8cWCh4KtTur7eKzIvx8ObspKwL9YXWo/NinODvHfDOvEfHW+nbAXvmPTpequ8L6D2fO/d9S+wwXjXn2zHz5MYf+rwz4biek71BX3z/Yj6m4O486flysbBm/Ev5GIO7CzV5x+mLnbc29lL6/Nxrre/U/I13P/dK9eXkhq9vGlgz5jvmOrIlY/huTm6E9NE1+8z5r4CJ4zpDW0hfLYbQ9z2gPm7ukwQv3hzPAnsNkrknIyMNuUvw4NneC+xrE8t/m+817qghGfX9T320hlwZXQ1bu6alaGvWFKU12THrC9XVITj7IfVxdbVfJ/ZED2d/6PO162EPbiO0t/PSelXbm5P2dOx6kpqT6qP1oPY/Oe2ZpPYPe3Apf7D+XpDx3Ho8FfP+erQXoMkpbVyGejqh3lNsvyT2uXlT+/6rrS9U49amtJfWml/zSpCaABkAAA==
   </data>
  </layer>
 </map>

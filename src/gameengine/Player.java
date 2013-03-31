@@ -15,6 +15,7 @@ public class Player extends Entity{
 	{
 		super(position, radius);
 		setVelocity(new Vector2f());
+		setHealth(50);
 	}
 	
 	
@@ -85,6 +86,22 @@ public class Player extends Entity{
 
 	public void setImage(Image image) {
 		this.image = image;
+	}
+
+	@Override
+	public boolean hit(double damage) {
+		//setFillColor(Color.yellow);
+		
+		setHealth(getHealth() - damage);
+		
+		return (getHealth() <=0);
+	}
+	
+
+	@Override
+	public double getDamage() {
+		
+		return 10;
 	}
 
 }
