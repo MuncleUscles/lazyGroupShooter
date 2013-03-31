@@ -23,7 +23,7 @@ public class GameEngine {
 	
 	private static Player player;
 	
-	private static TiledMap map;
+	private static TiledMap map, bgroundmap;
 	
 
 	
@@ -135,9 +135,13 @@ public class GameEngine {
 	
 	public static void draw(Graphics g)
 	{
+		
+		
 		g.translate(Math.round(-player.getPosition().x + Game.WINDOW_WIDTH/2), Math.round(-player.getPosition().y + Game.WINDOW_HEIGHT/2));
 		
-		map.render(0, 0);
+		bgroundmap.render(-Game.WINDOW_WIDTH/2, -Game.WINDOW_HEIGHT/2);
+		
+		map.render(0, 0, 1);
 		
 		for(int i=0; i<objects.size(); i++)
 		{
@@ -259,6 +263,28 @@ public class GameEngine {
 
 	public static void setMap(TiledMap map) {
 		GameEngine.map = map;
+		
+		for(int i=0; i<map.getWidth(); i++)
+		{
+			for(int j=0; j<map.getHeight(); j++)
+			{
+				int tileID = map.getTileId(i, j, 0);
+                String value = map.getTileProperty(tileID, "blocked", "false");
+                if ("true".equals(value))
+                {
+                    MapCircle c = new MapCircle(new Vector2f(32*i+16, 32*j+16), 16);
+                    addObject(c);
+                }
+			}
+		}
+	}
+
+	public static TiledMap getBgroundmap() {
+		return bgroundmap;
+	}
+
+	public static void setBgroundmap(TiledMap bgroundmap) {
+		GameEngine.bgroundmap = bgroundmap;
 	}
 	
 	

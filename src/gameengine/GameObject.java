@@ -59,5 +59,7 @@ public abstract class GameObject {
 	public abstract String collisionType();
 	
 	public abstract boolean hit(double damage);
+	
+	public abstract boolean isStatic();
 
 }

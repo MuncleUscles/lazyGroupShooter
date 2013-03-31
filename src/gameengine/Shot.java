@@ -46,6 +46,10 @@ public class Shot extends TempVisualObject{
 		return false;
 	}
 
-	
+	@Override
+	public boolean isStatic() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

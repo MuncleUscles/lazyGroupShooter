@@ -36,10 +36,11 @@ public class Game extends BasicGame
 		gc.getGraphics().setAntiAlias(true);
 		
 		GameEngine.setMap( new TiledMap("res/desert.tmx"));
+		GameEngine.setBgroundmap(new TiledMap("res/background.tmx"));
 		
 		//Centred player spawn
 		
-		Player player = new Player(new Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), 25);
+		Player player = new Player(new Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), 16);
 		player.setAimColor(new Color(255, 0, 0));
 		player.setFillColor(new Color(0, 255, 0, 50));
 		player.setImage(new Image("res/images/cowboy.png"));
@@ -51,7 +52,7 @@ public class Game extends BasicGame
 		
 		for(int i=0; i<10; i++)
 		{
-			BasicEnemy enemy = new BasicEnemy(new Vector2f((float) Math.random()*WINDOW_WIDTH,(float) Math.random()*WINDOW_HEIGHT), 25);
+			BasicEnemy enemy = new BasicEnemy(new Vector2f((float) Math.random()*WINDOW_WIDTH,(float) Math.random()*WINDOW_HEIGHT), 16);
 			enemy.setAimColor(new Color(255, 0, 0));
 			enemy.setFillColor(new Color(0, 0, 255, 50));
 			enemy.setImage(new Image("res/images/zombie.png"));

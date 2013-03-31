@@ -2,6 +2,11 @@
 <map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1">
   <image source="tmw_desert_spacing.png" width="265" height="199"/>
+  <tile id="31">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Collision" width="40" height="40">
   <data encoding="base64" compression="gzip">
@@ -10,7 +15,7 @@
  </layer>
  <layer name="Visible" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2Yf08CMQyGF+NPTJQYlYCKEU7UA/T7fzu7ZE2W2m3ttmPB3B9PDkZve7u1C+3SGLM8Qj6BC+DDPV+Bc/eZcnlgbTfArYJpg/3bADO3j/b5Azy6z8iZUN8cWCh4KtTur7eKzIvx8ObspKwL9YXWo/NinODvHfDOvEfHW+nbAXvmPTpequ8L6D2fO/d9S+wwXjXn2zHz5MYf+rwz4biek71BX3z/Yj6m4O486flysbBm/Ev5GIO7CzV5x+mLnbc29lL6/Nxrre/U/I13P/dK9eXkhq9vGlgz5jvmOrIlY/huTm6E9NE1+8z5r4CJ4zpDW0hfLYbQ9z2gPm7ukwQv3hzPAnsNkrknIyMNuUvw4NneC+xrE8t/m+817qghGfX9T320hlwZXQ1bu6alaGvWFKU12THrC9XVITj7IfVxdbVfJ/ZED2d/6PO162EPbiO0t/PSelXbm5P2dOx6kpqT6qP1oPY/Oe2ZpPYPe3Apf7D+XpDx3Ho8FfP+erQXoMkpbVyGejqh3lNsvyT2uXlT+/6rrS9U49amtJfWml/zSpCaABkAAA==
+   H4sIAAAAAAAAC+2Y207DMAxAI8RtQ4IJARPjVtayQTfg//8OR4oly9iJ06a7aHs42ta5yUkTR3Uq51y147wKfAIXwDJ8vgHn4TvnUmmjL5rfNXCTwWTDfp4FMA3P0X/+Ag/hO3Jm9HsEZhk8Gfys/c2FdhFcD+8hzkrd00/rr2ZxuE7w/wb4EO7j17fltwa+hfv49b5+X0BLxtyE3ysWh+s1Z34b0k5XP1x/OOa1k9cfxtJng2Oh49PGaPGT9jzr/EproRbGp43R4iftham8S/nF5pu2UcKP5t62/U7d//VOc6+vH82NLn4Tpc/Y/GKuIyt2De+V8r+rH++zVdpPMQLGgSvh/65+pRjC72dAP942+p1EeCFtPCdic0m1jX7jHeXodxh+txHuSfxdIrY06Kflv8/31B41JCk/yx569NtPP15Dzl1eDavVtKX8cmvWFNK716H4aXW1hhQ/pJ9UV9M6sWU+Uvym59f3h2dwC2O8b5fXq7GzOcnPeqbj+7PUnNyP14Oxd3LJj5+ZpJ4fnsGlxoP194xdj+07OX58zdP++FlATk7F1qXkp53paGdPsedlic/1G2r/K+2n1bilidXM1R7wB8CbazEAGQAA
   </data>
  </layer>
 </map>

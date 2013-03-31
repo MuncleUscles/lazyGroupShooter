@@ -51,4 +51,10 @@ public class CircleObject extends GameObject {
 		return false;
 	}
 
+	@Override
+	public boolean isStatic() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }

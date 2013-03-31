@@ -377,14 +377,34 @@ public class Collider {
 		//If overlapping
 		if(distanceSq < radiusSumSq)
 		{
-			//System.out.println("resolving "+a.getPosition()+" "+b.getPosition());
-			Vector2f dist = bPosition.sub(aPosition).normalise();
+			if(a.isStatic() && b.isStatic())
+			{
+				//Do Nothing
+				return false;
+			}
+			else if((a.isStatic() && !b.isStatic()) || (!a.isStatic() && !b.isStatic()))
+			{
+				//System.out.println("resolving "+a.getPosition()+" "+b.getPosition());
+				Vector2f dist = bPosition.sub(aPosition).normalise();
+				
+				Vector2f newPos = dist.scale((float) (a.getRadius() + b.getRadius()+1));
+				
+				b.setPosition(aPosition.add(newPos));
+				return true;
+			}
+			else if(!a.isStatic() && b.isStatic())
+			{
+				//System.out.println("resolving "+a.getPosition()+" "+b.getPosition());
+				Vector2f dist = aPosition.sub(bPosition).normalise();
+				
+				Vector2f newPos = dist.scale((float) (a.getRadius() + b.getRadius()+1));
+				
+				a.setPosition(bPosition.add(newPos));
+				return true;
+			}
 			
-			Vector2f newPos = dist.scale((float) (a.getRadius() + b.getRadius()+1));
-			
-			b.setPosition(aPosition.add(newPos));
 
-			return true;
+			
 		}
 		
 		return false;
