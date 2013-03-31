@@ -13,8 +13,7 @@ public class Player extends Entity{
 	
 	public Player(Vector2f position, float radius)
 	{
-		setPosition(position);
-		setRadius(radius);
+		super(position, radius);
 		setVelocity(new Vector2f());
 	}
 	

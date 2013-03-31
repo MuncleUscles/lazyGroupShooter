@@ -13,8 +13,7 @@ public class BasicEnemy extends Entity {
 	
 	public BasicEnemy(Vector2f position, float radius)
 	{
-		setPosition(position);
-		setRadius(radius);
+		super(position, radius);
 		setVelocity(new Vector2f());
 	}
 	
@@ -84,6 +83,12 @@ g.pushTransform();
 
 	public void setImage(Image image) {
 		this.image = image;
+	}
+	
+	@Override
+	public boolean hit(double damage) {
+		setFillColor(Color.yellow);
+		return false;
 	}
 
 }

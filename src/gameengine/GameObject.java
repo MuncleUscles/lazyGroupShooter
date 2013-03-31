@@ -12,8 +12,6 @@ public abstract class GameObject {
 	
 	private Vector2f velocity;
 	
-	private boolean isCollidable;
-	
 	public abstract void draw(Graphics g);
 	
 	
@@ -21,6 +19,11 @@ public abstract class GameObject {
 	{
 		position.add(velocity.scale((float) (delta/Game.FRAME_TIME)));
 		velocity = new Vector2f();
+	}
+	
+	public void move(double t)
+	{
+		position.add(velocity.copy().scale((float) t));
 	}
 
 	public Vector2f getPosition() {
@@ -35,19 +38,26 @@ public abstract class GameObject {
 	public Vector2f getVelocity() {
 		return velocity;
 	}
+	
+	public Vector2f getVelocity(int delta)
+	{
+		return velocity.copy().scale((float) (delta/Game.FRAME_TIME));
+	}
+	
+	
 
 	public void setVelocity(Vector2f velocity) {
 		this.velocity = velocity;
 	}
 
-	public boolean isCollidable() {
-		return isCollidable;
-	}
+	public abstract boolean isCollidable();
 
-	public void setCollidable(boolean isCollidable) {
-		this.isCollidable = isCollidable;
-	}
+	
 	
 	public abstract String type();
+	
+	public abstract String collisionType();
+	
+	public abstract boolean hit(double damage);
 
 }

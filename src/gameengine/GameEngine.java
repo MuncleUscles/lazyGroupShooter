@@ -10,6 +10,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
+import collision.Collider;
+
 
 public class GameEngine {
 	
@@ -164,6 +166,7 @@ public class GameEngine {
 	{
 		for(int i=0; i<entities.size(); i++)
 		{
+			
 			//Basic enemies
 			if(entities.get(i).type().equals("BasicEnemy"))
 			{
@@ -192,10 +195,19 @@ public class GameEngine {
 				
 				Vector2f shotEnd = new Vector2f(1,0);
 				shotEnd.setTheta(entity.getAimDirection());
-				shotEnd.scale(Game.WINDOW_WIDTH);
-				shotEnd.add(entity.getPosition());
+				
+				GameObject target = Collider.shoot(objects, entity, entity.getPosition(), shotEnd);
+				
+				//Hit something
+				if(target != null)
+				{
+					target.hit(0);
+				}
 				
 				//Visual
+				
+				shotEnd.scale(Game.WINDOW_WIDTH);
+				shotEnd.add(entity.getPosition());
 				
 				Shot shot = new Shot(entity.getPosition(), shotEnd);
 				tempVisuals.add(shot);
@@ -207,7 +219,7 @@ public class GameEngine {
 	
 	public static void resolveMovement(int delta)
 	{
-		
+		Collider.doCollisions(objects, delta);
 	}
 	
 	public static void move(int delta)

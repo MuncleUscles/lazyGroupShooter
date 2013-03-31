@@ -35,4 +35,17 @@ public class Shot extends TempVisualObject{
 		return "Shot";
 	}
 
+	@Override
+	public String collisionType() {
+		return "Line";
+	}
+
+	@Override
+	public boolean hit(double damage) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
+
 }

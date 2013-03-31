@@ -31,13 +31,15 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException
 	{
+		//gc.setMinimumLogicUpdateInterval(100);
+		
 		gc.getGraphics().setAntiAlias(true);
 		
 		GameEngine.setMap( new TiledMap("res/desert.tmx"));
 		
 		//Centred player spawn
 		
-		Player player = new Player(new Vector2f(640, 640), 25);
+		Player player = new Player(new Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), 25);
 		player.setAimColor(new Color(255, 0, 0));
 		player.setFillColor(new Color(0, 255, 0, 50));
 		player.setImage(new Image("res/images/cowboy.png"));
