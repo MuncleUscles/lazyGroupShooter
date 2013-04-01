@@ -50,9 +50,12 @@ public class Game extends BasicGame
 
 		//Random Enemy Spawn
 		
+		int w = GameEngine.getMap().getWidth()*GameEngine.getMap().getTileWidth();
+		int h = GameEngine.getMap().getHeight()*GameEngine.getMap().getTileHeight();
+		
 		for(int i=0; i<10; i++)
 		{
-			BasicEnemy enemy = new BasicEnemy(new Vector2f((float) Math.random()*WINDOW_WIDTH,(float) Math.random()*WINDOW_HEIGHT), 16);
+			BasicEnemy enemy = new BasicEnemy(new Vector2f((float) (32 + Math.random()*(w-64)),(float)(32 + Math.random()*(h-64))), 16);
 			enemy.setAimColor(new Color(255, 0, 0));
 			enemy.setFillColor(new Color(0, 0, 255, 50));
 			enemy.setImage(new Image("res/images/zombie.png"));

@@ -215,11 +215,16 @@ public class GameEngine {
 					{
 						killEntity((Entity) target);
 					}
+					shotEnd.scale(target.getPosition().copy().sub(entity.getPosition()).length());
+				}
+				else
+				{
+					shotEnd.scale(Game.WINDOW_WIDTH);
 				}
 				
 				//Visual
 				
-				shotEnd.scale(Game.WINDOW_WIDTH);
+				
 				shotEnd.add(entity.getPosition());
 				
 				Shot shot = new Shot(entity.getPosition(), shotEnd);
