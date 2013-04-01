@@ -13,6 +13,7 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
 import collision.Collider;
+import collision.ShootingResult;
 
 
 public class GameEngine {
@@ -78,7 +79,7 @@ public class GameEngine {
 		processAI();
 		
 		//Resolve shooting
-		resolveShooting();
+		resolveShooting(delta);
 		
 		
 		//Resolve movement
@@ -130,7 +131,7 @@ public class GameEngine {
 		
 		if(input.isMousePressed(input.MOUSE_LEFT_BUTTON) )
 		{
-			player.setShooting(true);
+			player.shoot();
 		}
 		
 	}
@@ -156,6 +157,34 @@ public class GameEngine {
 			
 			tempVisuals.get(i).draw(g);
 		}
+		
+		
+		//GUI stuff
+		g.resetTransform();
+		
+		//Enemies left
+		int n = 0;
+		for(int i=0; i<entities.size(); i++)
+		{
+			if(entities.get(i).type() == "BasicEnemy")
+			{
+				n++;
+			}
+		}
+		
+		g.setColor(Color.white);
+		if(n == 1)
+			g.drawString(n+" Zombie Left", Game.WINDOW_WIDTH-200, 10);
+		else
+			g.drawString(n+" Zombies Left", Game.WINDOW_WIDTH-200, 10);
+		
+		//Player health
+		
+		g.setColor(Color.gray);
+		g.drawRect(10, 10, 150, 30);
+		
+		g.setColor(Color.red);
+		g.fillRect(11, 11, (float) (149*(player.getHealth()/player.getMaxHealth())), 29);
 	}
 	
 	public static void processTempVisuals(int delta)
@@ -184,14 +213,31 @@ public class GameEngine {
 			{
 				BasicEnemy enemy = (BasicEnemy) entities.get(i);
 				
-				Vector2f aim = player.getPosition().copy().sub(enemy.getPosition());
-				enemy.setAimDirection(aim.getTheta());
-				enemy.setVelocity(aim.normalise().scale(enemy.getMovementSpeed()));				
+				float distance = enemy.getPosition().copy().sub(player.getPosition()).length();
+				
+				if(distance < 300)
+				{
+				
+					Vector2f aim = player.getPosition().copy().sub(enemy.getPosition());
+					enemy.setAimDirection(aim.getTheta());
+					
+					if(aim.length() <= player.getRadius() + enemy.getRadius() + enemy.getRange())
+					{
+						enemy.shoot();
+					}
+					
+					enemy.setVelocity(aim.normalise().scale(enemy.getMovementSpeed()));	
+				}
+				else
+				{
+					enemy.setAimDirection(enemy.getAimDirection() + (-5 + Math.random()*5));
+					enemy.setVelocity(enemy.getAimVector().copy().normalise().scale(enemy.getMovementSpeed()/2));
+				}
 			}
 		}
 	}
 	
-	public static void resolveShooting()
+	public static void resolveShooting(int delta)
 	{
 		for(int i=0; i<entities.size(); i++)
 		{
@@ -208,32 +254,61 @@ public class GameEngine {
 				Vector2f shotEnd = new Vector2f(1,0);
 				shotEnd.setTheta(entity.getAimDirection());
 				
-				GameObject target = Collider.shoot(objects, entity, entity.getPosition(), shotEnd);
+				ShootingResult result = Collider.shoot(objects, entity, entity.getPosition(), shotEnd);
 				
 				//Hit something
-				if(target != null)
+				if(entity.type() == "Player")
 				{
-					if(target.hit(entity.getDamage()))
+					if(result.target != null)
 					{
-						killEntity((Entity) target);
+						if(result.target.hit(entity.getDamage()))
+						{
+							killEntity((Entity) result.target);
+						}
+						shotEnd.scale((float) result.t);
 					}
-					shotEnd.scale(target.getPosition().copy().sub(entity.getPosition()).length());
+					else
+					{
+						shotEnd.scale(Game.WINDOW_WIDTH);
+					}
+					
+					shotEnd.add(entity.getPosition());
+					
+					Shot shot = new Shot(entity.getPosition(), shotEnd);
+					tempVisuals.add(shot);
 				}
-				else
+				else if(entity.type() == "BasicEnemy")
 				{
-					shotEnd.scale(Game.WINDOW_WIDTH);
+					
+					System.out.println("ZTring "+result.t);
+					if(result.target != null && result.t<=entity.getRange())
+					{
+						System.out.println("ZShooting");
+						
+						result.target.hit(entity.getDamage());
+						
+						shotEnd.scale((float) result.t);
+					}
+					else
+					{
+						shotEnd.scale(0);
+					}
+					
+					shotEnd.add(entity.getPosition());
+					
+					Shot shot = new Shot(entity.getPosition(), shotEnd);
+					//tempVisuals.add(shot);
 				}
 				
 				//Visual
 				
 				
-				shotEnd.add(entity.getPosition());
 				
-				Shot shot = new Shot(entity.getPosition(), shotEnd);
-				tempVisuals.add(shot);
 				
 				entity.setShooting(false);
 			}
+			
+			entity.updateTime(delta);
 		}
 	}
 	

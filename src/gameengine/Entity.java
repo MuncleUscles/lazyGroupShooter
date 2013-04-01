@@ -14,7 +14,13 @@ public abstract class Entity extends CircleObject{
 	
 	private float movementSpeed;
 	
+	private double maxHealth;
+	
 	private double health;
+	
+	private int firingDelay;
+	
+	private int timeLeftUntilShooting;
 
 	public double getAimDirection() {
 		return aimDirection;
@@ -49,8 +55,23 @@ public abstract class Entity extends CircleObject{
 		return isShooting;
 	}
 
-	public void setShooting(boolean isShooting) {
-		this.isShooting = isShooting;
+	public void shoot() {
+		
+		if(timeLeftUntilShooting <=0)
+		{	
+			this.isShooting = true;
+			timeLeftUntilShooting = firingDelay;
+		}
+	}
+	
+	public void setShooting(boolean shooting)
+	{
+		this.isShooting = shooting;
+	}
+	
+	public void updateTime(int delta)
+	{
+		timeLeftUntilShooting-=delta;
 	}
 	
 	public abstract double getDamage();
@@ -61,8 +82,41 @@ public abstract class Entity extends CircleObject{
 
 	public void setHealth(double health) {
 		this.health = health;
+		this.setMaxHealth(health);
 	}
 	
+	public abstract double getRange();
+
+	public int getFiringDelay() {
+		return firingDelay;
+	}
+
+	public void setFiringDelay(int firingDelay) {
+		this.firingDelay = firingDelay;
+	}
+
+	public int getTimeLeftUntilShooting() {
+		return timeLeftUntilShooting;
+	}
+
+	public void setTimeLeftUntilShooting(int timeLeftUntilShooting) {
+		this.timeLeftUntilShooting = timeLeftUntilShooting;
+	}
 	
+	@Override
+	public boolean hit(double damage) {
+		
+		health -= damage;
+		
+		return (health <= 0);
+	}
+
+	public double getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(double maxHealth) {
+		this.maxHealth = maxHealth;
+	}
 	
 }

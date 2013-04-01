@@ -253,10 +253,12 @@ public class Collider {
 	}
 	
 	
-	public static GameObject shoot(ArrayList<GameObject> objects, GameObject shooter, Vector2f origin, Vector2f direction)
+	public static ShootingResult shoot(ArrayList<GameObject> objects, GameObject shooter, Vector2f origin, Vector2f direction)
 	{
 		GameObject target = null;
 		double firstCollTime = Double.MAX_VALUE;
+		ShootingResult result = new ShootingResult();
+		
 		
 		Line line = new Line(origin, direction);
 		
@@ -292,13 +294,16 @@ public class Collider {
 		            	{
 		            		firstCollTime = t;
 		            		target = o;
+		            		
+		            		result.t = t;
+		            		result.target = target;
 		            	}
 		            }
 				}
 			}
 		}
 		
-		return target;
+		return result;
 	}
 	
 	private static boolean movingTowards(GameObject a, GameObject b)

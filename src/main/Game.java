@@ -32,7 +32,7 @@ public class Game extends BasicGame
 	public void init(GameContainer gc) throws SlickException
 	{
 		//gc.setMinimumLogicUpdateInterval(100);
-		
+		gc.setShowFPS(false);
 		gc.getGraphics().setAntiAlias(true);
 		
 		GameEngine.setMap( new TiledMap("res/desert.tmx"));

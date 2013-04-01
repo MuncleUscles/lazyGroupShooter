@@ -16,6 +16,7 @@ public class BasicEnemy extends Entity {
 		super(position, radius);
 		setVelocity(new Vector2f());
 		setHealth(10);
+		setFiringDelay(100);
 	}
 	
 	
@@ -86,20 +87,20 @@ public class BasicEnemy extends Entity {
 		this.image = image;
 	}
 	
-	@Override
-	public boolean hit(double damage) {
-		//setFillColor(Color.yellow);
-		
-		setHealth(getHealth() - damage);
-		
-		return (getHealth() <=0);
-	}
+	
 
 
 
 	@Override
 	public double getDamage() {
-		return 10;
+		return 3;
+	}
+
+
+
+	@Override
+	public double getRange() {
+		return 15;
 	}
 
 }
