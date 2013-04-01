@@ -12,6 +12,11 @@
     <property name="spawnBasicZombie" value="true"/>
    </properties>
   </tile>
+  <tile id="46">
+   <properties>
+    <property name="playerSpawn" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Collision" width="40" height="40">
   <data encoding="base64" compression="gzip">
@@ -20,7 +25,7 @@
  </layer>
  <layer name="Spawn" width="40" height="40">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3U2wkAIAxD0U7k/uOJA+iHhNDHPf+ikbQR+LHM54BD2R+6iAw69PCWoUM2ALNm2Z110t9iHvoNwEW1b6rvrervRw6uHr3uoct6G+Fh2B4AGQAA
+   H4sIAAAAAAAAC+3UMQ4AIAhDUU6k97+dk6MOpgGB/3aDNRUzvBjO5xRm4GxoKPsT2UVgq9DDU4YK2QD0+sveWTu9Lfqh3wC8qPZN9r2V/f74g1ePbnPost4CJ0qNlQAZAAA=
   </data>
  </layer>
  <layer name="Visible" width="40" height="40">

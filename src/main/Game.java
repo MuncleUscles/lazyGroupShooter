@@ -35,37 +35,12 @@ public class Game extends BasicGame
 		gc.setShowFPS(false);
 		gc.getGraphics().setAntiAlias(true);
 		
-		GameEngine.setMap( new TiledMap("res/desert.tmx"));
 		GameEngine.setBgroundmap(new TiledMap("res/background.tmx"));
 		
-		//Centred player spawn
+		GameEngine.setAndInitializeMap( new TiledMap("res/desert.tmx"));
 		
-		Player player = new Player(new Vector2f(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), 16);
-		player.setAimColor(new Color(255, 0, 0));
-		player.setFillColor(new Color(0, 255, 0, 50));
-		player.setImage(new Image("res/images/cowboy.png"));
 		
-		player.setMovementSpeed(5f);
-		GameEngine.setPlayer(player);
-
-		//Random Enemy Spawn
-		/*
-		int w = GameEngine.getMap().getWidth()*GameEngine.getMap().getTileWidth();
-		int h = GameEngine.getMap().getHeight()*GameEngine.getMap().getTileHeight();
 		
-		for(int i=0; i<10; i++)
-		{
-			BasicEnemy enemy = new BasicEnemy(new Vector2f((float) (32 + Math.random()*(w-64)),(float)(32 + Math.random()*(h-64))), 16);
-			enemy.setAimColor(new Color(255, 0, 0));
-			enemy.setFillColor(new Color(0, 0, 255, 50));
-			enemy.setImage(new Image("res/images/zombie.png"));
-			
-			
-			enemy.setMovementSpeed(4f);
-			
-			GameEngine.addEntity(enemy);
-		}
-		*/
 		
 	}
  

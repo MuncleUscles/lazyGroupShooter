@@ -280,11 +280,9 @@ public class GameEngine {
 				else if(entity.type() == "BasicEnemy")
 				{
 					
-					System.out.println("ZTring "+result.t);
+					
 					if(result.target != null && result.t<=entity.getRange())
 					{
-						System.out.println("ZShooting");
-						
 						result.target.hit(entity.getDamage());
 						
 						shotEnd.scale((float) result.t);
@@ -343,7 +341,7 @@ public class GameEngine {
 		return map;
 	}
 
-	public static void setMap(TiledMap map) throws SlickException {
+	public static void setAndInitializeMap(TiledMap map) throws SlickException {
 		GameEngine.map = map;
 		
 		//Collision
@@ -367,6 +365,7 @@ public class GameEngine {
 			for(int j=0; j<map.getHeight(); j++)
 			{
 				int tileID = map.getTileId(i, j, 1);
+				
                 String value = map.getTileProperty(tileID, "spawnBasicZombie", "false");
                 if ("true".equals(value))
                 {
@@ -379,6 +378,18 @@ public class GameEngine {
         			enemy.setMovementSpeed(4f);
         			
         			GameEngine.addEntity(enemy);
+                }
+                
+                value = map.getTileProperty(tileID, "playerSpawn", "false");
+                if ("true".equals(value))
+                {
+                	Player player = new Player(new Vector2f(32*i+16, 32*j+16), 16);
+            		player.setAimColor(new Color(255, 0, 0));
+            		player.setFillColor(new Color(0, 255, 0, 50));
+            		player.setImage(new Image("res/images/cowboy.png"));
+            		
+            		player.setMovementSpeed(5f);
+            		GameEngine.setPlayer(player);
                 }
 			}
 		}
