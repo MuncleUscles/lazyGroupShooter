@@ -26,7 +26,7 @@ public class BasicEnemy extends Entity {
 		g.pushTransform();
 		
 		g.setColor(fillColor);		
-		g.fillOval(getPosition().getX() - getRadius(), getPosition().getY() - getRadius(), getRadius()*2 , getRadius()*2);
+		//g.fillOval(getPosition().getX() - getRadius(), getPosition().getY() - getRadius(), getRadius()*2 , getRadius()*2);
 		
 		
 		Vector2f aimVector = new Vector2f(0, -1).scale(getRadius()).add(getPosition());		
@@ -36,7 +36,7 @@ public class BasicEnemy extends Entity {
 		image.drawCentered(getPosition().getX(), getPosition().getY());
 		
 		g.setColor(aimColor);
-		g.drawLine(getPosition().getX(), getPosition().getY(), aimVector.getX(), aimVector.getY());
+		//g.drawLine(getPosition().getX(), getPosition().getY(), aimVector.getX(), aimVector.getY());
 		
 		
 		

@@ -49,7 +49,7 @@ public class Game extends BasicGame
 		GameEngine.setPlayer(player);
 
 		//Random Enemy Spawn
-		
+		/*
 		int w = GameEngine.getMap().getWidth()*GameEngine.getMap().getTileWidth();
 		int h = GameEngine.getMap().getHeight()*GameEngine.getMap().getTileHeight();
 		
@@ -65,7 +65,7 @@ public class Game extends BasicGame
 			
 			GameEngine.addEntity(enemy);
 		}
-		
+		*/
 		
 	}
  

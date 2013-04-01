@@ -7,10 +7,20 @@
     <property name="blocked" value="true"/>
    </properties>
   </tile>
+  <tile id="45">
+   <properties>
+    <property name="spawnBasicZombie" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Collision" width="40" height="40">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+1RWwoEMQzKUbz/KfdrYZCYV9tlFioEMtaoMDAzvHzeCtjt98zpjNm8n/JRXt0M9u1i2kPlMQ/BV6FuMi+VxzwEXwXs3P/1fLvgPvyt8lireHXb6VflmYOd76fgeTGXZYL2SFvB08PzYi7LBO2RtuvheTEXZfJbpI0Q+atMNVEXj6ugkrcDJzx3Anb7rQB2+60AdvutAHb7rQB2+60A9r/94LxjcXb324mJH4K7iV+WNblRd6C94+/pO/eVXNDu5fFk+i48n6pfNz97VzfqbndeV/+9mdx5eZkPrP/fPX1VC2cm3pEm8pjmdfWRJvLodFlBlIPgHT+crN+b5wM6ZXg5ABkAAA==
+  </data>
+ </layer>
+ <layer name="Spawn" width="40" height="40">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3U2wkAIAxD0U7k/uOJA+iHhNDHPf+ikbQR+LHM54BD2R+6iAw69PCWoUM2ALNm2Z110t9iHvoNwEW1b6rvrervRw6uHr3uoct6G+Fh2B4AGQAA
   </data>
  </layer>
  <layer name="Visible" width="40" height="40">

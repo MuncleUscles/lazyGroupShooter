@@ -4,9 +4,11 @@ import java.util.Iterator;
 
 import main.Game;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -141,7 +143,7 @@ public class GameEngine {
 		
 		bgroundmap.render(-Game.WINDOW_WIDTH/2, -Game.WINDOW_HEIGHT/2);
 		
-		map.render(0, 0, 1);
+		map.render(0, 0, 2);
 		
 		for(int i=0; i<objects.size(); i++)
 		{
@@ -266,9 +268,10 @@ public class GameEngine {
 		return map;
 	}
 
-	public static void setMap(TiledMap map) {
+	public static void setMap(TiledMap map) throws SlickException {
 		GameEngine.map = map;
 		
+		//Collision
 		for(int i=0; i<map.getWidth(); i++)
 		{
 			for(int j=0; j<map.getHeight(); j++)
@@ -279,6 +282,28 @@ public class GameEngine {
                 {
                     MapCircle c = new MapCircle(new Vector2f(32*i+16, 32*j+16), 16);
                     addObject(c);
+                }
+			}
+		}
+		
+		//Spawn
+		for(int i=0; i<map.getWidth(); i++)
+		{
+			for(int j=0; j<map.getHeight(); j++)
+			{
+				int tileID = map.getTileId(i, j, 1);
+                String value = map.getTileProperty(tileID, "spawnBasicZombie", "false");
+                if ("true".equals(value))
+                {
+                	BasicEnemy enemy = new BasicEnemy(new Vector2f(32*i+16, 32*j+16), 16);
+        			enemy.setAimColor(new Color(255, 0, 0));
+        			enemy.setFillColor(new Color(0, 0, 255, 50));
+        			enemy.setImage(new Image("res/images/zombie.png"));
+        			
+        			
+        			enemy.setMovementSpeed(4f);
+        			
+        			GameEngine.addEntity(enemy);
                 }
 			}
 		}
