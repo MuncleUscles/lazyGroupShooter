@@ -213,26 +213,7 @@ public class GameEngine {
 			{
 				BasicEnemy enemy = (BasicEnemy) entities.get(i);
 				
-				float distance = enemy.getPosition().copy().sub(player.getPosition()).length();
-				
-				if(distance < 300)
-				{
-				
-					Vector2f aim = player.getPosition().copy().sub(enemy.getPosition());
-					enemy.setAimDirection(aim.getTheta());
-					
-					if(aim.length() <= player.getRadius() + enemy.getRadius() + enemy.getRange())
-					{
-						enemy.shoot();
-					}
-					
-					enemy.setVelocity(aim.normalise().scale(enemy.getMovementSpeed()));	
-				}
-				else
-				{
-					enemy.setAimDirection(enemy.getAimDirection() + (-5 + Math.random()*5));
-					enemy.setVelocity(enemy.getAimVector().copy().normalise().scale(enemy.getMovementSpeed()/2));
-				}
+				enemy.doAI(player);
 			}
 		}
 	}
@@ -358,7 +339,6 @@ public class GameEngine {
                 }
 			}
 		}
-		
 		//Spawn
 		for(int i=0; i<map.getWidth(); i++)
 		{
@@ -375,12 +355,13 @@ public class GameEngine {
         			enemy.setImage(new Image("res/images/zombie.png"));
         			
         			
+        			
         			enemy.setMovementSpeed(4f);
         			
         			GameEngine.addEntity(enemy);
                 }
                 
-                value = map.getTileProperty(tileID, "playerSpawn", "false");
+                value = map.getTileProperty(tileID, "spawnPlayer", "false");
                 if ("true".equals(value))
                 {
                 	Player player = new Player(new Vector2f(32*i+16, 32*j+16), 16);
@@ -390,6 +371,9 @@ public class GameEngine {
             		
             		player.setMovementSpeed(5f);
             		GameEngine.setPlayer(player);
+
+
+            		
                 }
 			}
 		}

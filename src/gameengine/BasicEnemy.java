@@ -11,6 +11,8 @@ public class BasicEnemy extends Entity {
 	
 	private Image image;
 	
+	private double aimChange;
+	
 	public BasicEnemy(Vector2f position, float radius)
 	{
 		super(position, radius);
@@ -101,6 +103,35 @@ public class BasicEnemy extends Entity {
 	@Override
 	public double getRange() {
 		return 15;
+	}
+	
+	public void doAI(Player player)
+	{
+		float distance = this.getPosition().copy().sub(player.getPosition()).length();
+		
+		if(distance < 300)
+		{
+		
+			Vector2f aim = player.getPosition().copy().sub(this.getPosition());
+			this.setAimDirection(aim.getTheta());
+			
+			if(aim.length() <= player.getRadius() + this.getRadius() + this.getRange())
+			{
+				this.shoot();
+			}
+			
+			this.setVelocity(aim.normalise().scale(this.getMovementSpeed()));	
+		}
+		else
+		{
+			aimChange += (-0.5 + Math.random()*1);
+			
+			if(aimChange < -2) aimChange = -2;
+			else if(aimChange > 2) aimChange = 2;
+			
+			setAimDirection(getAimDirection() + aimChange);
+			this.setVelocity(this.getAimVector().copy().normalise().scale(this.getMovementSpeed()/4));
+		}
 	}
 
 }

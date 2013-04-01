@@ -14,8 +14,8 @@ public class Game extends BasicGame
 	
 	
 	
-	public static int WINDOW_WIDTH = 800;
-	public static int WINDOW_HEIGHT = 600;
+	public static int WINDOW_WIDTH = 1000;
+	public static int WINDOW_HEIGHT = 800;
 	
 	public static int FRAME_RATE = 60;
 	public static double FRAME_TIME = 1000/FRAME_RATE;
@@ -38,7 +38,6 @@ public class Game extends BasicGame
 		GameEngine.setBgroundmap(new TiledMap("res/background.tmx"));
 		
 		GameEngine.setAndInitializeMap( new TiledMap("res/desert.tmx"));
-		
 		
 		
 		
