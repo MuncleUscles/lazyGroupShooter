@@ -51,5 +51,10 @@ public class Shot extends TempVisualObject{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public int collisionPriority() {
+		return 0;
+	}
 
 }

@@ -46,6 +46,12 @@ public class Game extends BasicGame
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
+		
+		if(gc.getInput().isKeyDown(Input.KEY_ESCAPE))
+		{
+			gc.exit();
+		}
+		
 		GameEngine.update(gc.getInput(), delta);
 		
 	}

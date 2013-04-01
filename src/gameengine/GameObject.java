@@ -61,5 +61,7 @@ public abstract class GameObject {
 	public abstract boolean hit(double damage);
 	
 	public abstract boolean isStatic();
+	
+	public abstract int collisionPriority();
 
 }

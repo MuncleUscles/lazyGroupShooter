@@ -109,7 +109,7 @@ public class BasicEnemy extends Entity {
 	{
 		float distance = this.getPosition().copy().sub(player.getPosition()).length();
 		
-		if(distance < 300)
+		if(distance < 300 && player.getHealth() > 0)
 		{
 		
 			Vector2f aim = player.getPosition().copy().sub(this.getPosition());

@@ -18,6 +18,13 @@ import collision.ShootingResult;
 
 public class GameEngine {
 	
+	private static int state;
+	
+	private static int STATE_GAME = 0;
+	private static int STATE_WON = 1;
+	private static int STATE_DEAD = 2;
+	
+	
 	private static ArrayList<GameObject> objects;
 	
 	private static ArrayList<TempVisualObject> tempVisuals;
@@ -27,6 +34,8 @@ public class GameEngine {
 	private static Player player;
 	
 	private static TiledMap map, bgroundmap;
+
+	private static int enemiesLeft;
 	
 
 	
@@ -35,6 +44,8 @@ public class GameEngine {
 		objects = new ArrayList<GameObject>();
 		tempVisuals = new ArrayList<TempVisualObject>();
 		entities = new  ArrayList<Entity>();
+		
+		state = STATE_GAME;
 	}
 	
 	public static void addEntity(Entity entity)
@@ -45,8 +56,12 @@ public class GameEngine {
 	
 	public static void killEntity(Entity entity)
 	{
-		objects.remove(entity);
-		entities.remove(entity);
+		if(entity != player)
+		{
+			objects.remove(entity);
+			entities.remove(entity);
+		}
+		
 	}
 	
 	public static void removeEntity(Entity entity)
@@ -87,51 +102,89 @@ public class GameEngine {
 		
 		//Move
 		move(delta);
+		
+		
+		
+		//States
+		if(player.getHealth() <= 0)
+			state = STATE_DEAD;
+		
+		int n = 0;
+		for(int i=0; i<entities.size(); i++)
+		{
+			if(entities.get(i).type() == "BasicEnemy")
+			{
+				n++;
+			}
+		}
+		enemiesLeft = n;
+		
+		if(enemiesLeft == 0)
+			state = STATE_WON;
 	}
 	
 	public static void processInput(Input input)
 	{		
-		//Player Movement
-		player.setVelocity(new Vector2f(0, 0));
 		
 		
-		if(input.isKeyDown(Input.KEY_W)  || input.isKeyDown(Input.KEY_UP))
+		if(state == STATE_GAME)
 		{
-			player.getVelocity().add(new Vector2f(0, -1));
-		}
-		if(input.isKeyDown(Input.KEY_S)  || input.isKeyDown(Input.KEY_DOWN))
-		{
-			player.getVelocity().add(new Vector2f(0, 1));
-		}
-		if(input.isKeyDown(Input.KEY_A)  || input.isKeyDown(Input.KEY_LEFT))
-		{
-			player.getVelocity().add(new Vector2f(-1, 0));
-		}
-		if(input.isKeyDown(Input.KEY_D)  || input.isKeyDown(Input.KEY_RIGHT))
-		{
-			player.getVelocity().add(new Vector2f(1, 0));
-		}
-		
-		player.getVelocity().normalise().scale(player.getMovementSpeed());
-		
-		
-		//Mouse aim
-		int mx = input.getMouseX();
-		int my = input.getMouseY();
-		
-		Vector2f mVector = new Vector2f(mx - Game.WINDOW_WIDTH/2, my - Game.WINDOW_HEIGHT/2);
-		
-		
-		double aimAngle = mVector.getTheta();
-		
-		player.setAimDirection((float) aimAngle);
+			//Player Movement
+			player.setVelocity(new Vector2f(0, 0));
+			
+			
+			if(input.isKeyDown(Input.KEY_W)  || input.isKeyDown(Input.KEY_UP))
+			{
+				player.getVelocity().add(new Vector2f(0, -1));
+			}
+			if(input.isKeyDown(Input.KEY_S)  || input.isKeyDown(Input.KEY_DOWN))
+			{
+				player.getVelocity().add(new Vector2f(0, 1));
+			}
+			if(input.isKeyDown(Input.KEY_A)  || input.isKeyDown(Input.KEY_LEFT))
+			{
+				player.getVelocity().add(new Vector2f(-1, 0));
+			}
+			if(input.isKeyDown(Input.KEY_D)  || input.isKeyDown(Input.KEY_RIGHT))
+			{
+				player.getVelocity().add(new Vector2f(1, 0));
+			}
+			
+			player.getVelocity().normalise().scale(player.getMovementSpeed());
+			
+			
+			//Mouse aim
+			int mx = input.getMouseX();
+			int my = input.getMouseY();
+			
+			Vector2f mVector = new Vector2f(mx - Game.WINDOW_WIDTH/2, my - Game.WINDOW_HEIGHT/2);
+			
+			
+			double aimAngle = mVector.getTheta();
+			
+			player.setAimDirection((float) aimAngle);
 
-		
-		//Shooting
-		
-		if(input.isMousePressed(input.MOUSE_LEFT_BUTTON) )
+			
+			//Shooting
+			
+			if(input.isMousePressed(input.MOUSE_LEFT_BUTTON) )
+			{
+				player.shoot();
+			}
+			
+		}
+		else if(state == STATE_DEAD)
 		{
-			player.shoot();
+			
+		}
+		else if(state == STATE_WON)
+		{
+			
+		}
+		
+		if(input.isKeyDown(Input.KEY_R))
+		{
+			restart();
 		}
 		
 	}
@@ -162,29 +215,42 @@ public class GameEngine {
 		//GUI stuff
 		g.resetTransform();
 		
-		//Enemies left
-		int n = 0;
-		for(int i=0; i<entities.size(); i++)
+		
+		if(state == STATE_GAME)
 		{
-			if(entities.get(i).type() == "BasicEnemy")
-			{
-				n++;
-			}
+		
+			//Enemies left	
+			
+			g.setColor(Color.white);
+			if(enemiesLeft == 1)
+				g.drawString(enemiesLeft+" Zombie Left", Game.WINDOW_WIDTH-200, 10);
+			else
+				g.drawString(enemiesLeft+" Zombies Left", Game.WINDOW_WIDTH-200, 10);
+			
+			//Player health
+			
+			g.setColor(Color.gray);
+			g.drawRect(10, 10, 150, 30);
+			
+			g.setColor(Color.red);
+			g.fillRect(11, 11, (float) (149*(player.getHealth()/player.getMaxHealth())), 29);
 		}
-		
-		g.setColor(Color.white);
-		if(n == 1)
-			g.drawString(n+" Zombie Left", Game.WINDOW_WIDTH-200, 10);
-		else
-			g.drawString(n+" Zombies Left", Game.WINDOW_WIDTH-200, 10);
-		
-		//Player health
-		
-		g.setColor(Color.gray);
-		g.drawRect(10, 10, 150, 30);
-		
-		g.setColor(Color.red);
-		g.fillRect(11, 11, (float) (149*(player.getHealth()/player.getMaxHealth())), 29);
+		else if(state == STATE_DEAD)
+		{
+			g.setColor(Color.white);
+			g.translate(Game.WINDOW_WIDTH/2, Game.WINDOW_HEIGHT/2);
+			g.scale(3, 3);
+			g.drawString("YOU'RE DEAD!", -50, -10);
+			g.drawString("Press 'R' to retry", -75, 10);
+		}
+		else if(state == STATE_WON)
+		{
+			g.setColor(Color.white);
+			g.translate(Game.WINDOW_WIDTH/2, Game.WINDOW_HEIGHT/2);
+			g.scale(3, 3);
+			g.drawString("YOU WON!", -50, -10);
+			g.drawString("Press 'R' to retry", -75, 10);
+		}
 	}
 	
 	public static void processTempVisuals(int delta)
@@ -264,8 +330,10 @@ public class GameEngine {
 					
 					if(result.target != null && result.t<=entity.getRange())
 					{
-						result.target.hit(entity.getDamage());
-						
+						if(result.target.hit(entity.getDamage()))
+						{
+							killEntity((Entity) result.target);
+						}
 						shotEnd.scale((float) result.t);
 					}
 					else
@@ -377,6 +445,78 @@ public class GameEngine {
                 }
 			}
 		}
+	}
+	
+	public static void restart() {
+		
+		objects.clear();
+		entities.clear();
+		tempVisuals.clear();
+		
+		//Collision
+		for(int i=0; i<map.getWidth(); i++)
+		{
+			for(int j=0; j<map.getHeight(); j++)
+			{
+				int tileID = map.getTileId(i, j, 0);
+                String value = map.getTileProperty(tileID, "blocked", "false");
+                if ("true".equals(value))
+                {
+                    MapCircle c = new MapCircle(new Vector2f(32*i+16, 32*j+16), 16);
+                    addObject(c);
+                }
+			}
+		}
+		//Spawn
+		for(int i=0; i<map.getWidth(); i++)
+		{
+			for(int j=0; j<map.getHeight(); j++)
+			{
+				int tileID = map.getTileId(i, j, 1);
+				
+                String value = map.getTileProperty(tileID, "spawnBasicZombie", "false");
+                if ("true".equals(value))
+                {
+                	BasicEnemy enemy = new BasicEnemy(new Vector2f(32*i+16, 32*j+16), 16);
+        			enemy.setAimColor(new Color(255, 0, 0));
+        			enemy.setFillColor(new Color(0, 0, 255, 50));
+        			try {
+						enemy.setImage(new Image("res/images/zombie.png"));
+					} catch (SlickException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			
+        			
+        			
+        			enemy.setMovementSpeed(4f);
+        			
+        			GameEngine.addEntity(enemy);
+                }
+                
+                value = map.getTileProperty(tileID, "spawnPlayer", "false");
+                if ("true".equals(value))
+                {
+                	Player player = new Player(new Vector2f(32*i+16, 32*j+16), 16);
+            		player.setAimColor(new Color(255, 0, 0));
+            		player.setFillColor(new Color(0, 255, 0, 50));
+            		try {
+						player.setImage(new Image("res/images/cowboy.png"));
+					} catch (SlickException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+            		
+            		player.setMovementSpeed(5f);
+            		GameEngine.setPlayer(player);
+
+
+            		
+                }
+			}
+		}
+		
+		state = STATE_GAME;
 	}
 
 	public static TiledMap getBgroundmap() {

@@ -53,8 +53,12 @@ public class CircleObject extends GameObject {
 
 	@Override
 	public boolean isStatic() {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int collisionPriority() {
+		return 0;
 	}
 	
 }

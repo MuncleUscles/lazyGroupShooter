@@ -34,7 +34,13 @@ public class Player extends Entity{
 		
 		g.rotate(getPosition().getX(), getPosition().getY(), (float) (getAimDirection() + 90));
 		
+		if(getHealth() <= 0)
+			image.setImageColor(255, 0, 0);
+		
 		image.drawCentered(getPosition().getX(), getPosition().getY());
+		
+		
+		
 		
 		g.setColor(aimColor);
 		//g.drawLine(getPosition().getX(), getPosition().getY(), aimVector.getX(), aimVector.getY());
@@ -103,6 +109,11 @@ public class Player extends Entity{
 	@Override
 	public double getRange() {
 		return Double.MAX_VALUE;
+	}
+	
+	@Override
+	public int collisionPriority() {
+		return 1;
 	}
 
 }

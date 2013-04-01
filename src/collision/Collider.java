@@ -387,7 +387,7 @@ public class Collider {
 				//Do Nothing
 				return false;
 			}
-			else if((a.isStatic() && !b.isStatic()) || (!a.isStatic() && !b.isStatic()))
+			else if((a.isStatic() && !b.isStatic()))
 			{
 				//System.out.println("resolving "+a.getPosition()+" "+b.getPosition());
 				Vector2f dist = bPosition.sub(aPosition).normalise();
@@ -407,7 +407,29 @@ public class Collider {
 				a.setPosition(bPosition.add(newPos));
 				return true;
 			}
-			
+			else
+			{
+				if(a.collisionPriority() >= b.collisionPriority())
+				{
+					//System.out.println("resolving "+a.getPosition()+" "+b.getPosition());
+					Vector2f dist = bPosition.sub(aPosition).normalise();
+					
+					Vector2f newPos = dist.scale((float) (a.getRadius() + b.getRadius()+1));
+					
+					b.setPosition(aPosition.add(newPos));
+					return true;
+				}
+				else 
+				{
+					//System.out.println("resolving "+a.getPosition()+" "+b.getPosition());
+					Vector2f dist = aPosition.sub(bPosition).normalise();
+					
+					Vector2f newPos = dist.scale((float) (a.getRadius() + b.getRadius()+1));
+					
+					a.setPosition(bPosition.add(newPos));
+					return true;
+				}
+			}
 
 			
 		}
