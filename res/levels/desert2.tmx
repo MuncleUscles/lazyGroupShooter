@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="tmw_desert_spacing.png" width="265" height="199"/>
+  <tile id="31">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="spawnBasicZombie" value="true"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="spawnPlayer" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Collision" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC1NgYGBQoDKmFhg1b2Sbp4ADU2IeMWLDyTxsmFzzSAWj5g1O86iJAQfQnI1ABgAA
+  </data>
+ </layer>
+ <layer name="Spawn" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGP5AD4e4Pl1dMQpoBXDF72AxbxRQDkZ6nODyvx4SjU0NrcMNAOeKbAJABgAA
+  </data>
+ </layer>
+ <layer name="Visible" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC5NkYGCQohKWBmJFIFaiElYeNW9Em6cCxFpoWJUC80DycmiYkPqhbJ4OA2Ye1R1E8TtqHv3N02TAzFPkYm0gBgBNeXBCQAYAAA==
+  </data>
+ </layer>
+</map>

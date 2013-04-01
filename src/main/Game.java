@@ -1,6 +1,6 @@
 package main;
 import gameengine.BasicEnemy;
-import gameengine.GameEngine;
+import gameengine.GameState;
 import gameengine.Player;
 
 import org.newdawn.slick.*;
@@ -8,6 +8,9 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.SpriteSheet;
+
+import statemanager.StateManager;
+
 import java.util.Random;
 public class Game extends BasicGame
 {
@@ -35,10 +38,8 @@ public class Game extends BasicGame
 		gc.setShowFPS(false);
 		gc.getGraphics().setAntiAlias(true);
 		
-		GameEngine.setBgroundmap(new TiledMap("res/background.tmx"));
 		
-		GameEngine.setAndInitializeMap( new TiledMap("res/desert.tmx"));
-		
+		StateManager.setState("mainMenuState");
 		
 		
 	}
@@ -47,12 +48,10 @@ public class Game extends BasicGame
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
 		
-		if(gc.getInput().isKeyDown(Input.KEY_ESCAPE))
-		{
-			gc.exit();
-		}
 		
-		GameEngine.update(gc.getInput(), delta);
+		
+		//GameState.update(gc.getInput(), delta);°
+		StateManager.getActiveState().update(gc, delta);
 		
 	}
  
@@ -61,8 +60,8 @@ public class Game extends BasicGame
 	{
 		g.resetTransform();
 		
-		GameEngine.draw(g);
-		
+		//GameState.draw(g);
+		StateManager.getActiveState().draw(g);
 	}		
 	public static void main(String[] args) throws SlickException
 	{

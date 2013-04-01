@@ -5,6 +5,7 @@ import java.util.Iterator;
 import main.Game;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -12,34 +13,37 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
+import statemanager.State;
+import statemanager.StateManager;
+
 import collision.Collider;
 import collision.ShootingResult;
 
 
-public class GameEngine {
+public class GameState extends State {
 	
-	private static int state;
+	private int state;
 	
 	private static int STATE_GAME = 0;
 	private static int STATE_WON = 1;
 	private static int STATE_DEAD = 2;
 	
 	
-	private static ArrayList<GameObject> objects;
+	private ArrayList<GameObject> objects;
 	
-	private static ArrayList<TempVisualObject> tempVisuals;
+	private ArrayList<TempVisualObject> tempVisuals;
 	
-	private static ArrayList<Entity> entities;
+	private ArrayList<Entity> entities;
 	
-	private static Player player;
+	private Player player;
 	
-	private static TiledMap map, bgroundmap;
+	private TiledMap map, bgroundmap;
 
-	private static int enemiesLeft;
+	private int enemiesLeft;
 	
 
 	
-	static 
+	public GameState()
 	{
 		objects = new ArrayList<GameObject>();
 		tempVisuals = new ArrayList<TempVisualObject>();
@@ -48,13 +52,13 @@ public class GameEngine {
 		state = STATE_GAME;
 	}
 	
-	public static void addEntity(Entity entity)
+	public void addEntity(Entity entity)
 	{
 		objects.add(entity);
 		entities.add(entity);
 	}
 	
-	public static void killEntity(Entity entity)
+	public void killEntity(Entity entity)
 	{
 		if(entity != player)
 		{
@@ -64,31 +68,31 @@ public class GameEngine {
 		
 	}
 	
-	public static void removeEntity(Entity entity)
+	public void removeEntity(Entity entity)
 	{
 		objects.remove(entity);
 		entities.remove(entity);
 	}
 	
-	public static void addObject(GameObject object)
+	public void addObject(GameObject object)
 	{
 		objects.add(object);
 	}
 	
-	public static void removeObject(GameObject object)
+	public void removeObject(GameObject object)
 	{
 		objects.remove(object);
 	}
 	
-
-	public static void update(Input input, int delta)
+	@Override
+	public void update(GameContainer gc, int delta)
 	{
 		//temp visuals
 		processTempVisuals(delta);
 		
 		
 		//process input
-		processInput(input);
+		processInput(gc);
 		
 		//AI set velocity, aim and shoot
 		processAI();
@@ -123,9 +127,9 @@ public class GameEngine {
 			state = STATE_WON;
 	}
 	
-	public static void processInput(Input input)
+	public void processInput(GameContainer gc)
 	{		
-		
+		Input input = gc.getInput();
 		
 		if(state == STATE_GAME)
 		{
@@ -187,9 +191,15 @@ public class GameEngine {
 			restart();
 		}
 		
+		
+		if(input.isKeyPressed(Input.KEY_ESCAPE))
+		{
+			StateManager.setState("mainMenuState");
+		}
 	}
 	
-	public static void draw(Graphics g)
+	@Override
+	public void draw(Graphics g)
 	{
 		
 		
@@ -253,7 +263,7 @@ public class GameEngine {
 		}
 	}
 	
-	public static void processTempVisuals(int delta)
+	public  void processTempVisuals(int delta)
 	{
 		Iterator<TempVisualObject> it = tempVisuals.iterator();
 		while (it.hasNext()) {
@@ -269,7 +279,7 @@ public class GameEngine {
 		}
 	}
 	
-	public static void processAI()
+	public  void processAI()
 	{
 		for(int i=0; i<entities.size(); i++)
 		{
@@ -284,7 +294,7 @@ public class GameEngine {
 		}
 	}
 	
-	public static void resolveShooting(int delta)
+	public  void resolveShooting(int delta)
 	{
 		for(int i=0; i<entities.size(); i++)
 		{
@@ -359,13 +369,13 @@ public class GameEngine {
 		}
 	}
 	
-	public static void resolveMovement(int delta)
+	public  void resolveMovement(int delta)
 	{
 		//Collider.doCollisions(objects, delta);
 		Collider.resolveAll(objects);
 	}
 	
-	public static void move(int delta)
+	public  void move(int delta)
 	{
 		for(int i=0; i<objects.size(); i++)
 		{
@@ -373,12 +383,12 @@ public class GameEngine {
 		}
 	}
 
-	public static Player getPlayer() {
+	public  Player getPlayer() {
 		return player;
 	}
 
-	public static void setPlayer(Player player) {
-		GameEngine.player = player;
+	public void setPlayer(Player player) {
+		this.player = player;
 		
 		addObject(player);
 		addEntity(player);
@@ -386,68 +396,17 @@ public class GameEngine {
 
 	
 
-	public static TiledMap getMap() {
+	public TiledMap getMap() {
 		return map;
 	}
 
-	public static void setAndInitializeMap(TiledMap map) throws SlickException {
-		GameEngine.map = map;
+	public void setAndInitializeMap(TiledMap map) {
+		this.map = map;
 		
-		//Collision
-		for(int i=0; i<map.getWidth(); i++)
-		{
-			for(int j=0; j<map.getHeight(); j++)
-			{
-				int tileID = map.getTileId(i, j, 0);
-                String value = map.getTileProperty(tileID, "blocked", "false");
-                if ("true".equals(value))
-                {
-                    MapCircle c = new MapCircle(new Vector2f(32*i+16, 32*j+16), 16);
-                    addObject(c);
-                }
-			}
-		}
-		//Spawn
-		for(int i=0; i<map.getWidth(); i++)
-		{
-			for(int j=0; j<map.getHeight(); j++)
-			{
-				int tileID = map.getTileId(i, j, 1);
-				
-                String value = map.getTileProperty(tileID, "spawnBasicZombie", "false");
-                if ("true".equals(value))
-                {
-                	BasicEnemy enemy = new BasicEnemy(new Vector2f(32*i+16, 32*j+16), 16);
-        			enemy.setAimColor(new Color(255, 0, 0));
-        			enemy.setFillColor(new Color(0, 0, 255, 50));
-        			enemy.setImage(new Image("res/images/zombie.png"));
-        			
-        			
-        			
-        			enemy.setMovementSpeed(4f);
-        			
-        			GameEngine.addEntity(enemy);
-                }
-                
-                value = map.getTileProperty(tileID, "spawnPlayer", "false");
-                if ("true".equals(value))
-                {
-                	Player player = new Player(new Vector2f(32*i+16, 32*j+16), 16);
-            		player.setAimColor(new Color(255, 0, 0));
-            		player.setFillColor(new Color(0, 255, 0, 50));
-            		player.setImage(new Image("res/images/cowboy.png"));
-            		
-            		player.setMovementSpeed(5f);
-            		GameEngine.setPlayer(player);
-
-
-            		
-                }
-			}
-		}
+		restart();
 	}
 	
-	public static void restart() {
+	public void restart() {
 		
 		objects.clear();
 		entities.clear();
@@ -491,7 +450,7 @@ public class GameEngine {
         			
         			enemy.setMovementSpeed(4f);
         			
-        			GameEngine.addEntity(enemy);
+        			addEntity(enemy);
                 }
                 
                 value = map.getTileProperty(tileID, "spawnPlayer", "false");
@@ -508,7 +467,7 @@ public class GameEngine {
 					}
             		
             		player.setMovementSpeed(5f);
-            		GameEngine.setPlayer(player);
+            		setPlayer(player);
 
 
             		
@@ -519,12 +478,12 @@ public class GameEngine {
 		state = STATE_GAME;
 	}
 
-	public static TiledMap getBgroundmap() {
+	public TiledMap getBgroundmap() {
 		return bgroundmap;
 	}
 
-	public static void setBgroundmap(TiledMap bgroundmap) {
-		GameEngine.bgroundmap = bgroundmap;
+	public void setBgroundmap(TiledMap bgroundmap) {
+		this.bgroundmap = bgroundmap;
 	}
 	
 	
